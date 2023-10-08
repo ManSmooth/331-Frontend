@@ -5,7 +5,7 @@ const store = useEventStore()
 const event = storeToRefs(store).event
 </script>
 <template>
-  <div v-if="event">
+  <div v-if="event" class="w-full">
     <h1>{{ event.title }}</h1>
     <div id="nav">
       <RouterLink :to="{ name: 'event-detail' }">Details</RouterLink>
@@ -14,7 +14,8 @@ const event = storeToRefs(store).event
       |
       <RouterLink :to="{ name: 'event-edit' }">Edit</RouterLink>
     </div>
-
-    <RouterView :event="event"></RouterView>
+    <div class="w-full">
+      <RouterView :event="event"></RouterView>
+    </div>
   </div>
 </template>

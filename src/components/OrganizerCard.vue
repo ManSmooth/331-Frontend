@@ -10,16 +10,19 @@
 </script>
 
 <template>
-	<div class="p-4 border border-black w-64">
-		<div>
-			<div class="flex flex-col gap-2">
-				<p class="text-xl">{{ organizer.name }}</p>
-				<div v-if="organizer.ownEvents" class="text-left opacity-75">
-					<p v-for="event of organizer.ownEvents" :key="event.id">
-						{{ event.title }}
-					</p>
-				</div>
-			</div>
+	<RouterLink
+		:to="{ name: 'organizer-detail', params: { id: organizer.id } }"
+		class="p-4 border shadow-lg bg-stone-50 w-64">
+		<div class="flex flex-col gap-2">
+			<img
+				v-if="organizer.image"
+				class="w-full shadow-sm"
+				:src="organizer.image" />
+			<p class="text-xl">{{ organizer.name }}</p>
+			<p class="text-xs">
+				Own Event:
+				{{ organizer.ownEvents ? organizer.ownEvents.length : 0 }}
+			</p>
 		</div>
-	</div>
+	</RouterLink>
 </template>

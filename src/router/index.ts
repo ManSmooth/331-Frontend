@@ -9,6 +9,7 @@ import NProgress from "nprogress";
 import { createRouter, createWebHistory } from "vue-router";
 import EventFormView from "../views/EventFormView.vue";
 import EventListView from "../views/EventListView.vue";
+import OrganizerDetailView from "../views/OrganizerDetailView.vue";
 import OrganizerFormView from "../views/OrganizerFormView.vue";
 import OrganizerListView from "../views/OrganizerListView.vue";
 import EventDetailView from "../views/event/EventDetailView.vue";
@@ -40,6 +41,12 @@ const router = createRouter({
 			path: "/add-organizer",
 			name: "add-organizer",
 			component: OrganizerFormView,
+		},
+		{
+			path: "/organizer/:id",
+			name: "organizer-detail",
+			component: OrganizerDetailView,
+			props: true,
 		},
 		{
 			path: "/event/:id",

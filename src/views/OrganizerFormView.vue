@@ -1,15 +1,27 @@
 <script setup lang="ts">
 	import BaseInput from "@/components/BaseInput.vue";
-	import BaseSelect from "@/components/BaseSelect.vue";
+	import ImageUpload from "@/components/ImageUpload.vue";
 	import OrganizerService from "@/services/OrganizerService";
 	import { useMessageStore } from "@/stores/message";
 	import type { OrganizerItem } from "@/types";
-	import { ref } from "vue";
+	import { computed, ref } from "vue";
 	import { useRouter } from "vue-router";
 	const store = useMessageStore();
 	const organizer = ref<OrganizerItem>({
 		id: 0,
 		name: "",
+		image: "",
+	});
+	const organizerImageProxy = computed({
+		get() {
+			if(!organizer.value.image) {
+				return []
+			}
+			return [organizer.value.image];
+		},
+		set(v: string[]) {
+			organizer.value.image = v[0];
+		},
 	});
 	const router = useRouter();
 	function saveOrganizer() {
@@ -37,6 +49,8 @@
 			@submit.prevent="saveOrganizer"
 			class="flex flex-col gap-2 w-2/3 max-w-lg">
 			<BaseInput label="Name" v-model="organizer.name" />
+			<h3 class="text-xl">Upload their image</h3>
+			<ImageUpload v-model="organizerImageProxy" :max="1" />
 			<button
 				class="border border-black border-opacity-50 rounded-md px-2 py-1 bg-amber-300 w-32 mx-auto"
 				type="submit">

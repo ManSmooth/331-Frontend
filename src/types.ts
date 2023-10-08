@@ -8,6 +8,7 @@ export interface EventItem {
   time: string
   organizer?: Queryable & Partial<OrganizerItem>
   participants?: ParticipantItem
+  images?: string[]
 }
 
 export interface Queryable {
@@ -18,6 +19,7 @@ export interface OrganizerItem extends Queryable {
   id: number
   name: string
   ownEvents?: EventItem[]
+  image?: string
 }
 
 export interface ParticipantItem   {
