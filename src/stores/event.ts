@@ -1,4 +1,4 @@
-import type { EventItem } from '@/type'
+import type { EventItem } from '@/types'
 import { defineStore } from 'pinia'
 export const useEventStore = defineStore('event', {
   state: () => ({

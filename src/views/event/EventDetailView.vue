@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { type EventItem } from '@/type'
+import { type EventItem } from '@/types'
 import type { PropType } from 'vue'
 
 defineProps({
@@ -15,3 +15,4 @@ defineProps({
     <p>{{ event.description }}</p>
   </div>
 </template>
+@/types

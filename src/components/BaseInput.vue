@@ -1,0 +1,24 @@
+<template>
+	<div class="flex flex-row justify-between items-center gap-4">
+		<label v-if="label">{{ label }}</label>
+		<input
+			class="border border-black border-opacity-25 rounded-md px-2 py-1"
+			:placeholder="label"
+			:value="modelValue"
+			@input="
+				emit(
+					'update:modelValue',
+					($event.target as HTMLInputElement)?.value
+				)
+			"
+			v-bind="$attrs" />
+	</div>
+</template>
+
+<script setup lang="ts" generic="T">
+	const emit = defineEmits(["update:modelValue"]);
+	defineProps<{
+		label: string;
+		modelValue: T;
+	}>();
+</script>

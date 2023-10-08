@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-import { type EventItem } from '@/type'
+import { type EventItem } from '@/types'
 import EventService from '@/services/EventService'
 const event = ref<EventItem | null>(null)
 
@@ -23,3 +23,4 @@ EventService.getEventById(Number(props.id))
     <p>{{ event.description }}</p>
   </div>
 </template>
+@/types

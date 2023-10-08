@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { type EventItem } from '@/type'
+import { type EventItem } from '@/types'
 import type { PropType } from 'vue'
 import { useRouter } from 'vue-router'
 import { useMessageStore } from '@/stores/message'
@@ -29,3 +29,4 @@ function register() {
   <p>Registration from here</p>
   <button @click="register">Register Me</button>
 </template>
+@/types
