@@ -21,9 +21,7 @@
 			organizers.value = response.data;
 			totalOrganizer.value = response.headers["x-total-count"];
 		})
-		.catch(() => {
-			router.push({ name: "network-error" });
-		});
+		.catch(()=>{});
 
 	onBeforeRouteUpdate((to, from, next) => {
 		const toPage = Number(to.query.page);
@@ -33,9 +31,7 @@
 				totalOrganizer.value = response.headers["x-total-count"];
 				next();
 			})
-			.catch(() => {
-				next({ name: "NetworkError" });
-			});
+			.catch(()=>{});
 	});
 	const hasNextPage = computed(() => {
 		const totalPages = Math.ceil(totalOrganizer.value / 3);

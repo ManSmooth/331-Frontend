@@ -9,6 +9,8 @@ import NProgress from "nprogress";
 import { createRouter, createWebHistory } from "vue-router";
 import EventFormView from "../views/EventFormView.vue";
 import EventListView from "../views/EventListView.vue";
+import RegisterView from "../views/RegisterView.vue";
+import LoginView from "../views/LoginView.vue";
 import OrganizerDetailView from "../views/OrganizerDetailView.vue";
 import OrganizerFormView from "../views/OrganizerFormView.vue";
 import OrganizerListView from "../views/OrganizerListView.vue";
@@ -46,6 +48,18 @@ const router = createRouter({
 			path: "/organizer/:id",
 			name: "organizer-detail",
 			component: OrganizerDetailView,
+			props: true,
+		},
+		{
+			path: "/login",
+			name: "login",
+			component: LoginView,
+			props: true,
+		},
+		{
+			path: "/register",
+			name: "register",
+			component: RegisterView,
 			props: true,
 		},
 		{
@@ -118,7 +132,7 @@ const router = createRouter({
 	},
 });
 
-router.beforeEach(() => {
+router.beforeEach((guard) => {
 	NProgress.start();
 });
 

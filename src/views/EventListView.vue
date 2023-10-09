@@ -1,7 +1,7 @@
 <script setup lang="ts">
 	import EventService from "@/services/EventService";
 	import type { EventItem } from "@/types";
-	import type { AxiosResponse } from "axios";
+	import type { AxiosError, AxiosResponse } from "axios";
 	import type { Ref } from "vue";
 	import { computed, ref } from "vue";
 	import { onBeforeRouteUpdate, useRouter } from "vue-router";
@@ -21,9 +21,7 @@
 			events.value = response.data;
 			totalEvent.value = response.headers["x-total-count"];
 		})
-		.catch(() => {
-			router.push({ name: "network-error" });
-		});
+		.catch(()=>{});
 
 	onBeforeRouteUpdate((to, from, next) => {
 		const toPage = Number(to.query.page);
@@ -33,9 +31,7 @@
 				totalEvent.value = response.headers["x-total-count"];
 				next();
 			})
-			.catch(() => {
-				next({ name: "NetworkError" });
-			});
+			.catch(()=>{});
 	});
 	const hasNextPage = computed(() => {
 		const totalPages = Math.ceil(totalEvent.value / 3);

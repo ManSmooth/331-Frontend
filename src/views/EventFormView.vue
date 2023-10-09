@@ -26,12 +26,13 @@
 		.then((response) => {
 			organizers.value = response.data;
 		})
-		.catch(() => {
-			router.push({ name: "network-error" });
-		});
+		.catch(() => {});
 	function saveEvent() {
 		EventService.saveEvent(event.value)
 			.then((response) => {
+				if (response.status !== 200) {
+					return;
+				}
 				router.push({
 					name: "event-detail",
 					params: { id: response.data.id },
@@ -43,9 +44,7 @@
 					store.resetMessage();
 				}, 3000);
 			})
-			.catch(() => {
-				router.push({ name: "network-error" });
-			});
+			.catch(() => {});
 	}
 </script>
 <template>

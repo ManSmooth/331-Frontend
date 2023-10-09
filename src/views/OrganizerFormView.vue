@@ -14,8 +14,8 @@
 	});
 	const organizerImageProxy = computed({
 		get() {
-			if(!organizer.value.image) {
-				return []
+			if (!organizer.value.image) {
+				return [];
 			}
 			return [organizer.value.image];
 		},
@@ -27,6 +27,9 @@
 	function saveOrganizer() {
 		OrganizerService.saveOrganizer(organizer.value)
 			.then((response) => {
+				if (response.status !== 200) {
+					return;
+				}
 				router.push({
 					name: "organizer-list",
 				});
@@ -37,9 +40,7 @@
 					store.resetMessage();
 				}, 3000);
 			})
-			.catch(() => {
-				router.push({ name: "network-error" });
-			});
+			.catch(() => {});
 	}
 </script>
 <template>

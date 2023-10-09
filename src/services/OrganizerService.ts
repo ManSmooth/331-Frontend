@@ -1,14 +1,7 @@
 import axios from "axios";
 import type { AxiosInstance, AxiosResponse } from "axios";
 import type { OrganizerItem } from "@/types";
-const apiClient: AxiosInstance = axios.create({
-	baseURL: import.meta.env.VITE_BACKEND_URL,
-	withCredentials: false,
-	headers: {
-		Accept: "application/json",
-		"Content-Type": "application/json",
-	},
-});
+import apiClient from "./AxiosClient";
 
 export default {
 	getOrganizers(
@@ -29,7 +22,9 @@ export default {
 	getOrganizerById(id: number): Promise<AxiosResponse<OrganizerItem>> {
 		return apiClient.get<OrganizerItem>(`/organizers/${id}`);
 	},
-	saveOrganizer(organizer: OrganizerItem): Promise<AxiosResponse<OrganizerItem>> {
+	saveOrganizer(
+		organizer: OrganizerItem
+	): Promise<AxiosResponse<OrganizerItem>> {
 		return apiClient.post<OrganizerItem>("/organizers", organizer);
 	},
 };
