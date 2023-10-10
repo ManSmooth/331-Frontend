@@ -11,7 +11,7 @@ export default {
 	): Promise<AxiosResponse<EventItem[]>> {
 		let temp_concat: String[] = [];
 		if (keyword) {
-			temp_concat.push(`desc=${keyword}`);
+			temp_concat.push(`keyword=${keyword}`);
 		}
 		if (perPage != 0) {
 			temp_concat.push(`_limit=${perPage}`);

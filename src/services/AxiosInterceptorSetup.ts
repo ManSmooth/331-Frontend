@@ -25,6 +25,9 @@ apiClient.interceptors.response.use(
 		if (err.response?.status === 403) {
 			return router.push({ name: "login" });
 		}
+		if (err.response?.status === 404) {
+			return err;
+		}
 		return router.push({ name: "network-error" });
 	}
 );

@@ -3,11 +3,17 @@
 	import type { EventItem } from "@/types";
 	import type { AxiosError, AxiosResponse } from "axios";
 	import type { Ref } from "vue";
-	import { computed, ref } from "vue";
-	import { onBeforeRouteUpdate, useRouter } from "vue-router";
+	import { computed, ref, watchEffect } from "vue";
+	import {
+		onBeforeRouteUpdate,
+		useRouter,
+		type NavigationGuardNext,
+	} from "vue-router";
 	import EventCard from "../components/EventCard.vue";
+	import BaseInput from "@/components/BaseInput.vue";
 	const events: Ref<EventItem[]> = ref([]);
 	const totalEvent = ref<number>(0);
+	const keyword = ref<string>("");
 	const props = defineProps({
 		page: {
 			type: Number,
@@ -16,32 +22,54 @@
 	});
 	const router = useRouter();
 
-	EventService.getEvents(3, props.page)
-		.then((response: AxiosResponse<EventItem[]>) => {
-			events.value = response.data;
-			totalEvent.value = response.headers["x-total-count"];
-		})
-		.catch(()=>{});
+	fetchEvents(props.page);
 
 	onBeforeRouteUpdate((to, from, next) => {
 		const toPage = Number(to.query.page);
-		EventService.getEvents(3, toPage)
-			.then((response: AxiosResponse<EventItem[]>) => {
-				events.value = response.data;
-				totalEvent.value = response.headers["x-total-count"];
-				next();
-			})
-			.catch(()=>{});
+		fetchEvents(toPage, keyword.value, next);
 	});
 	const hasNextPage = computed(() => {
 		const totalPages = Math.ceil(totalEvent.value / 3);
 		return props.page.valueOf() < totalPages;
+	});
+	function fetchEvents(
+		page: number,
+		keyword: string = "",
+		next: NavigationGuardNext | null = null
+	) {
+		EventService.getEvents(3, page, keyword)
+			.then((response: AxiosResponse<EventItem[]>) => {
+				events.value = response.data;
+				totalEvent.value = response.headers["x-total-count"];
+				if (next) {
+					next();
+				}
+			})
+			.catch((err: AxiosError) => {
+				totalEvent.value = err.response?.headers["x-total-count"];
+				if (totalEvent.value > 0) {
+					return router.push({
+						name: "event-list",
+						query: { page: Math.ceil(totalEvent.value / 3) },
+					});
+				} else {
+					return router.push({
+						name: "event-list",
+						query: { page: 1 },
+					});
+				}
+			});
+	}
+
+	watchEffect(() => {
+		fetchEvents(props.page, keyword.value);
 	});
 </script>
 
 <template>
 	<main class="flex flex-col items-center w-2/3 max-w-2lg gap-4">
 		<h1 class="text-2xl">Events For Good</h1>
+		<BaseInput label="Search" v-model="keyword" />
 		<div class="flex flex-col gap-4">
 			<EventCard
 				v-for="event in events"
